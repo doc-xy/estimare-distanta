@@ -1,0 +1,123 @@
+/* Fundal general și stil de bază */
+body {
+  font-family: Arial, sans-serif;
+  margin: 40px;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+/* Titluri principale */
+h1, h2 {
+  color: #004d99;
+  text-align: center;
+}
+
+/* Containerele principale */
+form,
+#testSection,
+#paginaIntro,
+#rezumatFinal {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 30px auto;
+}
+
+/* Elemente de formular */
+input,
+select,
+button {
+  font-size: 18px;
+  padding: 10px;
+  margin-top: 12px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Stil buton */
+button {
+  background-color: #007acc;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+button:hover:enabled {
+  background-color: #005fa3;
+}
+
+/* Imaginea obiectului */
+img {
+  max-width: 100%;
+  border-radius: 8px;
+}
+
+/* Feedback text */
+#feedback {
+  font-weight: bold;
+  font-size: 18px;
+  margin-top: 10px;
+  color: #cc0000;
+}
+
+/* Stil rezumat */
+#rezumatContent p {
+  margin: 6px 0;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+#rezumatContent hr {
+  border: none;
+  border-top: 1px solid #ccc;
+  margin: 15px 0;
+}
+
+/* Stil pentru casetele de bifat (consimțământ) */
+label {
+  font-size: 18px;
+  display: block;
+  margin: 10px 0;
+  line-height: 1.5;
+}
+
+label input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+  margin-right: 12px;
+}
+
+/* Responsivitate pentru ecrane mici (smartphone) */
+@media screen and (max-width: 480px) {
+  body {
+    margin: 10px;
+  }
+
+  form,
+  #testSection,
+  #paginaIntro,
+  #rezumatFinal {
+    padding: 15px;
+    margin: 10px auto;
+  }
+
+  input,
+  select,
+  button {
+    font-size: 16px;
+    padding: 8px;
+  }
+
+  label {
+    font-size: 17px;
+  }
+}

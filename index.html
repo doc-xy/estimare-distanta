@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Estimare Distanță - Vista Space</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>Test estimare distanță</h1>
+
+  <!-- Pagina 1: consimțământ -->
+  <div id="paginaIntro">
+    <h2>Studiu comportamental privind estimarea statică egocentrică a distanței</h2>
+    <p><strong>Autori:</strong> Constantin Ciucurel, Elena Ioana Iconaru</p>
+
+    <p>
+      Confirm că doresc să particip la acest studiu, care implică trei estimări ale unor distanțe față de obiecte de referință.
+      Informațiile mele vor fi stocate anonim și vor fi utilizate exclusiv în scopuri de cercetare științifică.
+    </p>
+
+    <p><strong>Vă rugăm să citiți cu atenție următoarele afirmații și să le bifați pe toate pentru a putea continua:</strong></p>
+
+    <label><input type="checkbox" class="consentCheck"> Am citit toate informațiile de mai sus</label><br>
+    <label><input type="checkbox" class="consentCheck"> Înțeleg că toate datele mele vor fi stocate anonim</label><br>
+    <label><input type="checkbox" class="consentCheck"> Sunt de acord ca datele mele să fie analizate în scop științific</label><br>
+    <label><input type="checkbox" class="consentCheck"> Înțeleg că rezultatele pot fi folosite pentru publicare academică</label><br>
+    <label><input type="checkbox" class="consentCheck"> Înțeleg că pot să mă retrag oricând din studiu, fără a furniza un motiv</label><br><br>
+
+    <button id="continuaBtn" disabled>Continuă</button>
+  </div>
+
+  <!-- Pagina 2: formular date -->
+  <form id="userForm" style="display: none;">
+    <label for="age">Vârstă:</label>
+    <input type="number" id="age" required /><br /><br>
+
+    <label for="sex">Sex:</label>
+    <select id="sex" required>
+      <option value="">Alege</option>
+      <option value="M">Masculin</option>
+      <option value="F">Feminin</option>
+    </select><br /><br>
+
+    <button type="submit">Începe testul</button>
+  </form>
+
+  <!-- Pagina 3: test -->
+  <div id="testSection" style="display: none;">
+    <h2 id="numeObiect">Obiectul</h2>
+    <img id="imagineObiect" src="" alt="Obiect de estimat" width="400" /><br /><br>
+
+    <input type="number" id="estimateInput" placeholder="Introdu estimarea ta" />
+    <button id="submitEstimateBtn">Trimite estimarea</button>
+    <p id="feedback"></p>
+  </div>
+
+  <!-- Pagina 4: rezultatul -->
+  <div id="rezumatFinal" style="display: none;">
+    <h2>Rezumatul răspunsurilor</h2>
+    <div id="rezumatContent"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
