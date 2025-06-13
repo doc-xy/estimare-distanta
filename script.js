@@ -153,8 +153,8 @@ function afiseazaRezumatFinal() {
   document.getElementById("rezumatContent").innerHTML = rezumatHTML;
 
   console.log("Date colectate:", dateParticipant);
-  // Trimite datele către Google Sheets
-fetch("https://script.google.com/macros/s/AKfycbyp7KlEsffI5pC_M9KQjj2WeBaA7tMecm0NwEs8Y3b9di1B5e1bO0JCPIJjx54mXnc2/exec", {
+// Trimite datele către Google Sheets
+fetch("https://script.google.com/macros/s/AKfycbw2dF1e_kIDNJ5sUtvFf7YH2KW7Rj-3_0A780DqnZF5Y6ZDZQeeB9X4hH9jnxwTpLg/exec", {
   method: "POST",
   body: JSON.stringify(dateParticipant),
   headers: {
@@ -162,6 +162,11 @@ fetch("https://script.google.com/macros/s/AKfycbyp7KlEsffI5pC_M9KQjj2WeBaA7tMecm
   }
 })
 .then(response => response.text())
-.then(data => console.log("✔️ Date trimise la Google Sheets:", data))
-.catch(error => console.error("❌ Eroare trimitere:", error));
-}
+.then(data => {
+  console.log("✔️ Date trimise la Google Sheets:", data);
+  alert("Testul a fost completat și datele au fost trimise. Mulțumim!");
+})
+.catch(error => {
+  console.error("❌ Eroare la trimitere:", error);
+  alert("A apărut o problemă la trimiterea datelor. Te rugăm să încerci din nou.");
+});
