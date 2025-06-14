@@ -5,29 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Estimare Distanță - Vista Space</title>
   <link rel="stylesheet" href="style.css" />
-
-  <!-- Firebase SDK -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
-
-    // Configurare Firebase
-    const firebaseConfig = {
-      apiKey: "TINE-CREDENTIALELE",
-      authDomain: "colectaredate-97782.firebaseapp.com",
-      projectId: "colectaredate-97782",
-      storageBucket: "colectaredate-97782.appspot.com",
-      messagingSenderId: "52221405810",
-      appId: "1:52221405810:web:72ebbe334ce62abcc7f0eb"
-    };
-
-    // Inițializează Firebase
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    
-    // ✅ Face accesibilă baza de date Firestore pentru `script.js`
-    window.db = db;
-  </script>
 </head>
 <body>
   <h1>Test estimare distanță</h1>
@@ -53,7 +30,7 @@
     <button id="continuaBtn" disabled>Continuă</button>
   </div>
 
-  <!-- Pagina 2: formular -->
+  <!-- Pagina 2: formular date -->
   <form id="userForm" style="display: none;">
     <label for="age">Vârstă:</label>
     <input type="number" id="age" required /><br /><br>
@@ -84,7 +61,6 @@
     <div id="rezumatContent"></div>
   </div>
 
-  <!-- Script JS încărcat cu defer -->
-  <script src="script.js" defer></script>
+  <script src="script.js"></script>
 </body>
 </html>
