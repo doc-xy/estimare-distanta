@@ -155,7 +155,7 @@ window.onload = function () {
 
     console.log("Date colectate:", dateParticipant);
     // Trimite datele către Google Sheets
-    fetch("https://script.google.com/macros/s/AKfycbw2dF1e_kIDNJ5sUtvFf7YH2KW7Rj-3_0A780DqnZF5Y6ZDZQeeB9X4hH9jnxwTpLg/exec", {
+    fetch("https://script.google.com/macros/s/AKfycbxAjNdVhIUlias6h8ohuBb4pG2WmeA7kKBC1g8exXwceLfAscacvrTsd91sU8BE5X-J/exec", {
       method: "POST",
       body: JSON.stringify(dateParticipant),
       headers: {
