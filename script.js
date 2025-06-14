@@ -1,3 +1,21 @@
+// ✅ Importă Firebase și Firestore
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+
+// ✅ Configurare Firebase
+const firebaseConfig = {
+  apiKey: "AIzaSyBgG-pLhao6AEiTARxm5P_QImPtur_3P7s",
+  authDomain: "colectaredate-97782.firebaseapp.com",
+  projectId: "colectaredate-97782",
+  storageBucket: "colectaredate-97782.appspot.com",
+  messagingSenderId: "52221405810",
+  appId: "1:52221405810:web:72ebbe334ce62abcc7f0eb"
+};
+
+// ✅ Inițializează Firebase și Firestore
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
 window.onload = function () {
   const DISTANTE_TEST = [124, 580, 1465];
   const OBIECTE_TEST = [
@@ -10,26 +28,6 @@ window.onload = function () {
   let incercariEtapa = [];
   let dateParticipant = {};
   let startTime = null;
-  let startEtapa = null;
-
-  // -------------------- Pagina 1: consimțământ ---------------------
-
-  const checkboxuri = document.querySelectorAll(".consentCheck");
-  const continuaBtn = document.getElementById("continuaBtn");
-
-  checkboxuri.forEach(cb => {
-    cb.addEventListener("change", function () {
-      const toateBifate = Array.from(checkboxuri).every(c => c.checked);
-      continuaBtn.disabled = !toateBifate;
-    });
-  });
-
-  continuaBtn.addEventListener("click", function () {
-    document.getElementById("paginaIntro").style.display = "none";
-    document.getElementById("userForm").style.display = "block";
-  });
-
-  // -------------------- Pagina 2: formular ---------------------
 
   document.getElementById("userForm").addEventListener("submit", function (e) {
     e.preventDefault();
@@ -51,125 +49,36 @@ window.onload = function () {
     document.getElementById("userForm").style.display = "none";
     document.getElementById("testSection").style.display = "block";
     startTime = new Date();
-
     incarcaEtapaCurenta();
   });
-
-  // -------------------- Pagina 3: test ---------------------
-
-  document.getElementById("submitEstimateBtn").addEventListener("click", submitEstimate);
-
-  function incarcaEtapaCurenta() {
-    const obiect = OBIECTE_TEST[etapaCurenta];
-    document.getElementById("numeObiect").textContent = obiect.nume;
-    document.getElementById("imagineObiect").src = obiect.imagine;
-    document.getElementById("feedback").textContent = "";
-    document.getElementById("estimateInput").value = "";
-    startEtapa = new Date();
-  }
-
-  function submitEstimate() {
-    const estimate = parseInt(document.getElementById("estimateInput").value);
-    const feedbackEl = document.getElementById("feedback");
-
-    if (isNaN(estimate)) {
-      feedbackEl.textContent = "Te rog introdu un număr valid.";
-      return;
-    }
-
-    const distantaCorecta = DISTANTE_TEST[etapaCurenta];
-    let feedback = "";
-
-    if (estimate === distantaCorecta) {
-      feedback = `✅ Felicitări! Valoarea corectă este ${distantaCorecta} m.`;
-    } else if (estimate > distantaCorecta) {
-      feedback = "Prea mare.";
-    } else {
-      feedback = "Prea mică.";
-    }
-
-    feedbackEl.textContent = feedback;
-
-    incercariEtapa.push({
-      valoare: estimate,
-      feedback: feedback,
-      timp: new Date().toISOString()
-    });
-
-    if (estimate === distantaCorecta) {
-      const endEtapa = new Date();
-      const durataSec = ((endEtapa - startEtapa) / 1000).toFixed(2);
-
-      const estimariNum = incercariEtapa.map(e => e.valoare);
-      const primaEstimare = estimariNum[0];
-      const mediaEstimari = (estimariNum.reduce((a, b) => a + b, 0) / estimariNum.length).toFixed(2);
-
-      dateParticipant.raspunsuri.push({
-        obiect: OBIECTE_TEST[etapaCurenta].nume,
-        distantaCorecta: distantaCorecta,
-        primaEstimare: primaEstimare,
-        mediaEstimari: mediaEstimari,
-        nrIncercari: incercariEtapa.length,
-        timpEtapaSecunde: durataSec,
-        incercari: [...incercariEtapa]
-      });
-
-      etapaCurenta++;
-      incercariEtapa = [];
-
-      if (etapaCurenta < DISTANTE_TEST.length) {
-        setTimeout(() => {
-          feedbackEl.textContent = "";
-          incarcaEtapaCurenta();
-        }, 1500);
-      } else {
-        afiseazaRezumatFinal();
-      }
-    } else {
-      document.getElementById("estimateInput").value = "";
-      document.getElementById("estimateInput").focus();
-    }
-  }
 
   function afiseazaRezumatFinal() {
     const endTime = new Date();
     const timpTotal = ((endTime - startTime) / 1000).toFixed(2);
-
     document.getElementById("testSection").style.display = "none";
     document.getElementById("rezumatFinal").style.display = "block";
 
     let rezumatHTML = `<p><strong>Timp total:</strong> ${timpTotal} secunde</p><hr>`;
-    dateParticipant.raspunsuri.forEach((r, index) => {
-      rezumatHTML += `
-        <p><strong>${r.obiect}</strong></p>
+    dateParticipant.raspunsuri.forEach((r) => {
+      rezumatHTML += `<p><strong>${r.obiect}</strong></p>
         <p>Distanță corectă: ${r.distantaCorecta} m</p>
         <p>Prima estimare: ${r.primaEstimare} m</p>
         <p>Media estimărilor: ${r.mediaEstimari} m</p>
         <p>Număr de încercări: ${r.nrIncercari}</p>
-        <p>Timp estimare: ${r.timpEtapaSecunde} secunde</p>
-        <hr>
-      `;
+        <p>Timp estimare: ${r.timpEtapaSecunde} secunde</p><hr>`;
     });
 
     document.getElementById("rezumatContent").innerHTML = rezumatHTML;
-
-    console.log("Date colectate:", dateParticipant);
-    // Trimite datele către Google Sheets
-    fetch("https://script.google.com/macros/s/AKfycbxg7Us-QTb8uEuo5uy7aDQtkkiA8yA7B0xPJ7vcW1VmHYEvnMfUOVk0zodNkml3PRnP/exec", {
-          method: "POST",
-      body: JSON.stringify(dateParticipant),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
-    .then(response => response.text())
-    .then(data => {
-      console.log("✔️ Date trimise la Google Sheets:", data);
-      alert("Testul a fost completat și datele au fost trimise. Mulțumim!");
-    })
-    .catch(error => {
-      console.error("❌ Eroare la trimitere:", error);
-      alert("A apărut o problemă la trimiterea datelor. Te rugăm să încerci din nou.");
-    });
+    
+    // ✅ Trimite datele către Firebase Firestore
+    addDoc(collection(db, "date_utilizatori"), dateParticipant)
+      .then(() => {
+        console.log("✔️ Date salvate în Firebase!");
+        alert("Testul a fost completat și datele au fost salvate. Mulțumim!");
+      })
+      .catch(error => {
+        console.error("❌ Eroare la salvare:", error);
+        alert("A apărut o problemă la salvarea datelor.");
+      });
   }
 };
