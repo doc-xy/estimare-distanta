@@ -62,8 +62,32 @@
   </div>
 
   <!-- Scripturi Firebase -->
-  <script src="https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/11.9.1/firebase-database.js"></script>
+  <script type="module">
+    // Import Firebase SDK modules
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+    import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-database.js";
+
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyC0ehiWxhWwersSQKxa9-5T9-9MGpPp29Y",
+      authDomain: "estimare-distanta.firebaseapp.com",
+      databaseURL: "https://estimare-distanta-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "estimare-distanta",
+      storageBucket: "estimare-distanta.firebasestorage.app",
+      messagingSenderId: "549115334361",
+      appId: "1:549115334361:web:c6d8afc1692affb61178c8"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+
+    // Expunem variabilele globale pentru script.js
+    window.firebaseApp = app;
+    window.firebaseDatabase = database;
+    window.firebaseRef = ref;
+    window.firebaseSet = set;
+  </script>
 
   <!-- Scriptul principal -->
   <script src="script.js"></script>
