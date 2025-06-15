@@ -1,3 +1,4 @@
+// script.js
 document.addEventListener("DOMContentLoaded", function () {
   // 🔥 Configurare Firebase
   const firebaseConfig = {
