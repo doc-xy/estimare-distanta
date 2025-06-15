@@ -1,4 +1,18 @@
-window.onload = function () {
+document.addEventListener("DOMContentLoaded", function () {
+  // 🔥 Configurare Firebase
+  const firebaseConfig = {
+    apiKey: "AIzaSyC0ehiWxhWwersSQKxa9-5T9-9MGpPp29Y",
+    authDomain: "estimare-distanta.firebaseapp.com",
+    databaseURL: "https://estimare-distanta-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "estimare-distanta",
+    storageBucket: "estimare-distanta.firebasestorage.app",
+    messagingSenderId: "549115334361",
+    appId: "1:549115334361:web:c6d8afc1692affb61178c8"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const database = firebase.database();
+
   const DISTANTE_TEST = [124, 580, 1465];
   const OBIECTE_TEST = [
     { nume: "Obiect 1", imagine: "obiect1.jpg" },
@@ -11,8 +25,6 @@ window.onload = function () {
   let dateParticipant = {};
   let startTime = null;
   let startEtapa = null;
-
-  // -------------------- Pagina 1: consimțământ ---------------------
 
   const checkboxuri = document.querySelectorAll(".consentCheck");
   const continuaBtn = document.getElementById("continuaBtn");
@@ -28,8 +40,6 @@ window.onload = function () {
     document.getElementById("paginaIntro").style.display = "none";
     document.getElementById("userForm").style.display = "block";
   });
-
-  // -------------------- Pagina 2: formular ---------------------
 
   document.getElementById("userForm").addEventListener("submit", function (e) {
     e.preventDefault();
@@ -54,8 +64,6 @@ window.onload = function () {
 
     incarcaEtapaCurenta();
   });
-
-  // -------------------- Pagina 3: test ---------------------
 
   document.getElementById("submitEstimateBtn").addEventListener("click", submitEstimate);
 
@@ -154,22 +162,20 @@ window.onload = function () {
     document.getElementById("rezumatContent").innerHTML = rezumatHTML;
 
     console.log("Date colectate:", dateParticipant);
-    // Trimite datele către Google Sheets
-    fetch("https://script.google.com/macros/s/AKfycbw2dF1e_kIDNJ5sUtvFf7YH2KW7Rj-3_0A780DqnZF5Y6ZDZQeeB9X4hH9jnxwTpLg/exec", {
-      method: "POST",
-      body: JSON.stringify(dateParticipant),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
-    .then(response => response.text())
-    .then(data => {
-      console.log("✔️ Date trimise la Google Sheets:", data);
-      alert("Testul a fost completat și datele au fost trimise. Mulțumim!");
-    })
-    .catch(error => {
-      console.error("❌ Eroare la trimitere:", error);
-      alert("A apărut o problemă la trimiterea datelor. Te rugăm să încerci din nou.");
-    });
+    salveazaInFirebase(dateParticipant);
   }
-};
+
+  function salveazaInFirebase(dateParticipant) {
+    const timestamp = new Date().toISOString();
+    const uniqueKey = "participant_" + timestamp.replace(/[:.]/g, "-");
+
+    firebase.database().ref("estimari/" + uniqueKey).set(dateParticipant)
+      .then(() => {
+        alert("Datele au fost trimise cu succes în Firebase!");
+      })
+      .catch((error) => {
+        console.error("❌ Eroare la trimitere în Firebase:", error);
+        alert("A apărut o eroare la trimiterea datelor. Te rugăm să încerci din nou.");
+      });
+  }
+});
