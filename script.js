@@ -1,4 +1,3 @@
-// script.js
 document.addEventListener("DOMContentLoaded", function () {
   // 🔥 Configurare Firebase
   const firebaseConfig = {
@@ -6,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
     authDomain: "estimare-distanta.firebaseapp.com",
     databaseURL: "https://estimare-distanta-default-rtdb.europe-west1.firebasedatabase.app",
     projectId: "estimare-distanta",
-    storageBucket: "estimare-distanta.firebasestorage.app",
+    storageBucket: "estimare-distanta.appspot.com",
     messagingSenderId: "549115334361",
     appId: "1:549115334361:web:c6d8afc1692affb61178c8"
   };
@@ -162,7 +161,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.getElementById("rezumatContent").innerHTML = rezumatHTML;
 
-    console.log("Date colectate:", dateParticipant);
     salveazaInFirebase(dateParticipant);
   }
 
@@ -170,7 +168,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const timestamp = new Date().toISOString();
     const uniqueKey = "participant_" + timestamp.replace(/[:.]/g, "-");
 
-    firebase.database().ref("estimari/" + uniqueKey).set(dateParticipant)
+    database.ref("estimari/" + uniqueKey).set(dateParticipant)
       .then(() => {
         alert("Datele au fost trimise cu succes în Firebase!");
       })
