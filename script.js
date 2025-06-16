@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // 🔥 Configurare Firebase
   const firebaseConfig = {
     apiKey: "AIzaSyC0ehiWxhWwersSQKxa9-5T9-9MGpPp29Y",
     authDomain: "estimare-distanta.firebaseapp.com",
@@ -25,6 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
   let dateParticipant = {};
   let startTime = null;
   let startEtapa = null;
+  let inputBlocat = false;
 
   const checkboxuri = document.querySelectorAll(".consentCheck");
   const continuaBtn = document.getElementById("continuaBtn");
@@ -73,11 +73,18 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("imagineObiect").src = obiect.imagine;
     document.getElementById("feedback").textContent = "";
     document.getElementById("estimateInput").value = "";
+    document.getElementById("estimateInput").disabled = false;
+    document.getElementById("submitEstimateBtn").disabled = false;
+    inputBlocat = false;
+    incercariEtapa = [];
     startEtapa = new Date();
   }
 
   function submitEstimate() {
-    const estimate = parseInt(document.getElementById("estimateInput").value);
+    if (inputBlocat) return;
+
+    const estimateInput = document.getElementById("estimateInput");
+    const estimate = parseInt(estimateInput.value);
     const feedbackEl = document.getElementById("feedback");
 
     if (isNaN(estimate)) {
@@ -105,6 +112,10 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     if (estimate === distantaCorecta) {
+      inputBlocat = true;
+      estimateInput.disabled = true;
+      document.getElementById("submitEstimateBtn").disabled = true;
+
       const endEtapa = new Date();
       const durataSec = ((endEtapa - startEtapa) / 1000).toFixed(2);
 
@@ -123,7 +134,6 @@ document.addEventListener("DOMContentLoaded", function () {
       });
 
       etapaCurenta++;
-      incercariEtapa = [];
 
       if (etapaCurenta < DISTANTE_TEST.length) {
         setTimeout(() => {
@@ -134,8 +144,8 @@ document.addEventListener("DOMContentLoaded", function () {
         afiseazaRezumatFinal();
       }
     } else {
-      document.getElementById("estimateInput").value = "";
-      document.getElementById("estimateInput").focus();
+      estimateInput.value = "";
+      estimateInput.focus();
     }
   }
 
@@ -147,7 +157,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("rezumatFinal").style.display = "block";
 
     let rezumatHTML = `<p><strong>Timp total:</strong> ${timpTotal} secunde</p><hr>`;
-    dateParticipant.raspunsuri.forEach((r, index) => {
+    dateParticipant.raspunsuri.forEach((r) => {
       rezumatHTML += `
         <p><strong>${r.obiect}</strong></p>
         <p>Distanță corectă: ${r.distantaCorecta} m</p>
