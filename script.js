@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
   firebase.initializeApp(firebaseConfig);
   const database = firebase.database();
 
-  const DISTANTE_TEST = [124, 580, 1465];
+  const DISTANTE_TEST = [134, 575, 1463];
   const OBIECTE_TEST = [
     { nume: "Obiect 1", imagine: "obiect1.jpg" },
     { nume: "Obiect 2", imagine: "obiect2.jpg" },
